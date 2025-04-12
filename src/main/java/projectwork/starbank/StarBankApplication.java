@@ -9,5 +9,5 @@ public class StarBankApplication {
     public static void main(String[] args) {
         SpringApplication.run(StarBankApplication.class, args);
     }
-
+    /*Привет мир */
 }
