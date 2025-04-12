@@ -25,7 +25,7 @@ public class TopSavingRuleSet implements RecommendationRuleSet {
 
         if (hasDebit && (debitDeposits >= 50_000 || savingDeposits >= 50_000) && debitDeposits > investExpenses) {
             return Optional.of(new RecommendationDto(
-                    "147f6a0f-3b91-413b-ab99-87f081d60d5a",
+                    "59efc529-2fff-41af-baff-90ccd7402925",
                     "Top Saving",
                     "   Откройте свою собственную «Копилку» с нашим банком! «Копилка» — это уникальный банковский инструмент, который поможет вам легко и удобно накапливать деньги на важные цели. Больше никаких забытых чеков и потерянных квитанций — всё под контролем!\n" +
                             "\n" +

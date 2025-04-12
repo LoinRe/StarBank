@@ -16,14 +16,14 @@ public class SimpleCreditRuleSet implements RecommendationRuleSet {
 
     @Override
     public Optional<RecommendationDto> elevator(String userId) {
-
         boolean hasNotCredit = !repository.userHasProductType(userId, "CREDIT");
         double debitDeposits = repository.getSumDepositsByProductType(userId, "DEBIT");
         double debitExpenses = repository.getSumWithdrawalsByProductType(userId, "DEBIT");
-        if (hasNotCredit && debitDeposits > debitExpenses && debitDeposits > 100_000) {
+
+        if (hasNotCredit && debitDeposits > debitExpenses && debitExpenses > 100_000) {
             return Optional.of(new RecommendationDto(
-                    "147f6a0f-3b91-413b-ab99-87f081d60d5a",
-                    "Simple Credit ",
+                    "ab138afb-f3ba-4a93-b74f-0fcee86d447f",
+                    "Простой кредит", // ← Название из ТЗ
                     "Откройте мир выгодных кредитов с нами!\n" +
                             "\n" +
                             "Ищете способ быстро и без лишних хлопот получить нужную сумму? Тогда наш выгодный кредит — именно то, что вам нужно! Мы предлагаем низкие процентные ставки, гибкие условия и индивидуальный подход к каждому клиенту.\n" +

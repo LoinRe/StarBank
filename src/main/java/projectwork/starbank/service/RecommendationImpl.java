@@ -13,11 +13,11 @@ import java.util.stream.Collectors;
 public class RecommendationImpl implements RecommendationService {
 
     private final List<RecommendationRuleSet> ruleSets;
-    private final GenericHttpMessageConverter genericHttpMessageConverter;
+   // private final GenericHttpMessageConverter genericHttpMessageConverter;
 
     public RecommendationImpl(List<RecommendationRuleSet> ruleSets, GenericHttpMessageConverter genericHttpMessageConverter) {
         this.ruleSets = ruleSets;
-        this.genericHttpMessageConverter = genericHttpMessageConverter;
+       // this.genericHttpMessageConverter = genericHttpMessageConverter;
     }
 
     @Override
