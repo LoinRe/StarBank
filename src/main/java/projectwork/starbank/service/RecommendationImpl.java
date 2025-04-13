@@ -1,6 +1,5 @@
 package projectwork.starbank.service;
 
-import org.springframework.http.converter.GenericHttpMessageConverter;
 import org.springframework.stereotype.Service;
 import projectwork.starbank.dto.RecommendationDto;
 import projectwork.starbank.rules.RecommendationRuleSet;
@@ -13,11 +12,9 @@ import java.util.stream.Collectors;
 public class RecommendationImpl implements RecommendationService {
 
     private final List<RecommendationRuleSet> ruleSets;
-   // private final GenericHttpMessageConverter genericHttpMessageConverter;
 
-    public RecommendationImpl(List<RecommendationRuleSet> ruleSets, GenericHttpMessageConverter genericHttpMessageConverter) {
+    public RecommendationImpl(List<RecommendationRuleSet> ruleSets) {
         this.ruleSets = ruleSets;
-       // this.genericHttpMessageConverter = genericHttpMessageConverter;
     }
 
     @Override
