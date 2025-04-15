@@ -1,6 +1,8 @@
 package projectwork.starbank.model;
 
 import jakarta.persistence.*;  ///!!!!!!
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 
 @Entity
@@ -15,7 +17,8 @@ public class DynamicRule {
     private String productName;
     private String productText;
 
-    @Column(columnDefinition = "jsonb")
+    //@Column(columnDefinition = "jsonb")
+    @JdbcTypeCode(SqlTypes.JSON)
     private String rule;
 
 
