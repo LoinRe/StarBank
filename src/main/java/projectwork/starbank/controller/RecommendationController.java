@@ -2,6 +2,7 @@ package projectwork.starbank.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 import projectwork.starbank.dto.RecommendationDto;
 import projectwork.starbank.service.RecommendationService;
@@ -21,6 +22,7 @@ public class RecommendationController {
     }
 
     @GetMapping("/{userId}")
+    @Cacheable(value = "ruleDefinitions")
     public RecommendationResponse getRecommendation(@PathVariable String userId){
         logger.info("Received request for recommendations for user: {}", userId);
         List<RecommendationDto> recommendations = recommendationService.getRecommendations(userId);
