@@ -14,14 +14,6 @@ public class RecommendationRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public int getRandomTransactionAmount(UUID user){
-        Integer result = jdbcTemplate.queryForObject(
-                "SELECT SUM(amount) as amount_sum FROM transactions t WHERE t.user_id = ? GROUP BY t.user_id",
-                Integer.class,
-                user);
-        return result != null ? result : 0;
-    }
-
     // Проверка: есть ли у пользователя хотя бы один продукт указанного типа
     public boolean userHasProductType(String userId, String productType) {
         String sql = """
