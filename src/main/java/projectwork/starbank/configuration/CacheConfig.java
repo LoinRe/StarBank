@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.concurrent.TimeUnit;
+import java.util.List;
 
 @Configuration
 @EnableCaching
@@ -16,11 +17,14 @@ public class CacheConfig {
     @Bean
     public CacheManager cacheManager() {
         CaffeineCacheManager cacheManager = new CaffeineCacheManager();
-        cacheManager.registerCustomCache("ruleDefinitions",
-                Caffeine.newBuilder()
-                        .maximumSize(1000)
-                        .expireAfterWrite(10, TimeUnit.MINUTES)
-                        .build());
+
+        // Зарегистрируй кэши по названиям, которые будут использоваться в @Cacheable
+        cacheManager.setCacheNames(List.of("userOf", "sumByType", "userTransactionCount"));
+
+        // Настройки всех кэшей
+        cacheManager.setCaffeine(Caffeine.newBuilder()
+                .expireAfterWrite(10, TimeUnit.MINUTES)
+                .maximumSize(1000));
         return cacheManager;
     }
 }
