@@ -42,4 +42,23 @@ public class RecommendationRepository {
         """;
         return jdbcTemplate.queryForObject(sql, Double.class, userId, productType);
     }
+    public int userTransactionCount(String userId, String productType) {
+        String sql = """
+        SELECT COUNT(*) FROM transactions t 
+        JOIN products p ON t.product_id = p.id 
+        WHERE t.user_id = ? AND p.type = ? 
+    """;
+        return jdbcTemplate.queryForObject(sql, Integer.class, userId, productType);
+    }
+
+
+    public double getSumByTransactionType(String userId, String productType, String transactionType) {
+        String sql = """
+        SELECT COALESCE(SUM(t.amount), 0) FROM transactions t 
+        JOIN products p ON t.product_id = p.id 
+        WHERE t.user_id = ? AND p.type = ? AND t.type = ? 
+    """;
+        return jdbcTemplate.queryForObject(sql, Double.class, userId, productType, transactionType);
+    }
 }
+
