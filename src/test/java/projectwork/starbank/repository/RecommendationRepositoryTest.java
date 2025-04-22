@@ -54,10 +54,8 @@ class RecommendationRepositoryTest {
     void shouldMatchSimpleCreditConditions() {
         assertFalse(repository.userHasProductType(userCredit.toString(), "CREDIT"));
 
-
         double debitDeposits = repository.getSumDepositsByProductType(userCredit.toString(), "DEBIT");
         double debitWithdraw = repository.getSumWithdrawalsByProductType(userCredit.toString(), "DEBIT");
-
 
         assertTrue(debitDeposits > debitWithdraw);
         assertTrue(debitWithdraw > 100_000);
