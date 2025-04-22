@@ -7,11 +7,11 @@ import projectwork.starbank.repository.RecommendationRepository;
 import java.util.Optional;
 
 @Component
-public class invest500 implements RecommendationRuleSet {
+public class Invest500RuleSet implements RecommendationRuleSet {
 
     private final RecommendationRepository repository;
 
-    public invest500(RecommendationRepository repository) {
+    public Invest500RuleSet(RecommendationRepository repository) {
         this.repository = repository;
     }
 

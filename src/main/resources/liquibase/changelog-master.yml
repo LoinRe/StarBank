@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-dynamic-rule-table
+      author: team-2
+      changes:
+        - sqlFile:
+            path: scripts/index.sql
+            relativeToChangelogFile: true
