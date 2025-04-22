@@ -9,7 +9,6 @@ import projectwork.starbank.rules.DynamicRuleEngine;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -44,7 +43,6 @@ public class RecommendationImpl implements RecommendationService {
                     boolean present = optionalRecommendation.isPresent();
                     if (present) {
                         logger.trace("Static rule resulted in a recommendation for user: {}", userId);
-                    } else {
                     }
                     return present;
                 })
@@ -59,7 +57,6 @@ public class RecommendationImpl implements RecommendationService {
                     boolean evaluationResult = dynamicRuleEngine.evaluate(userId, ruleDto.getRule());
                     if (evaluationResult) {
                         logger.trace("Dynamic rule for product {} evaluated to true.", ruleDto.getProductId());
-                    } else {
                     }
                     return evaluationResult;
                 })
