@@ -19,14 +19,17 @@ public class RecommendationImpl implements RecommendationService {
 
     private final DynamicRuleService dynamicRuleService;
     private final DynamicRuleEngine dynamicRuleEngine;
+    private final RuleStatsService ruleStatsService;                // 2 человек
     public RecommendationImpl(
             List<RecommendationRuleSet> ruleSets,
             DynamicRuleService dynamicRuleService,
-            DynamicRuleEngine dynamicRuleEngine
+            DynamicRuleEngine dynamicRuleEngine,
+            RuleStatsService ruleStatsService                       // 2 человек
     ) {
         this.ruleSets = ruleSets;
         this.dynamicRuleService = dynamicRuleService;
         this.dynamicRuleEngine = dynamicRuleEngine;
+        this.ruleStatsService = ruleStatsService;                    // 2 человек
         logger.info("RecommendationImpl initialized with {} static rule sets.", ruleSets.size());
     }
 
@@ -57,6 +60,10 @@ public class RecommendationImpl implements RecommendationService {
                     boolean evaluationResult = dynamicRuleEngine.evaluate(userId, ruleDto.getRule());
                     if (evaluationResult) {
                         logger.trace("Dynamic rule for product {} evaluated to true.", ruleDto.getProductId());
+
+                        // сюда инкремент
+                        ruleStatsService.increment(ruleDto.getProductId());         // 2 человек
+
                     }
                     return evaluationResult;
                 })
