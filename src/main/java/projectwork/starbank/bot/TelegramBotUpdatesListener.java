@@ -38,44 +38,61 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     @Override
     public int process(List<Update> updates) {
-        updates.forEach(update -> {
-            logger.info("Processing update: {}", update);
-            Message message = update.message();
-            if (message != null && message.text() != null) {
-                String chatId = message.chat().id().toString();
-                String text = message.text();
-
-                if ("/start".equals(text)) {
-                    String helpMessage = "Добро пожаловать в StarBank Bot! \nКоманда: /recommend username";
-                    telegramBot.execute(new SendMessage(chatId, helpMessage));
-                } else if (text.startsWith("/recommend ")) {
-                    String username = text.replace("/recommend ", "");
-
-
-                    List<User> users = userRepository.findByUsername(username);
-                    if (users.size() == 1) {
-                        User user = users.get(0);
-                        List<RecommendationDto> recs = recommendationService.getRecommendations(user.getId());
-
-                        if (recs.isEmpty()) {
-                            telegramBot.execute(new SendMessage(chatId, "Здравствуйте, " + user.getFirstName() + " " + user.getLastName() +
-                                    "\nНовых продуктов для вас нет."));
-                        } else {
-                            StringBuilder sb = new StringBuilder();
-                            sb.append("Здравствуйте, ").append(user.getFirstName()).append(" ").append(user.getLastName()).append("\nНовые продукты для вас:\n");
-                            recs.forEach(r -> {
-                                sb.append("🎁 ").append(r.getName()).append("\n");
-                                sb.append("✨ ").append(r.getText()).append("\n\n");  // Добавляем описание
-                                sb.append("\n---\n\n");  // Разделитель между рекомендациями
-                            });
-                            telegramBot.execute(new SendMessage(chatId, sb.toString()));
-                        }
-                    } else {
-                        telegramBot.execute(new SendMessage(chatId, "Пользователь не найден."));
-                    }
-                }
-            }
-        });
+        updates.forEach(this::handleUpdate);
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
+    }
+
+    private void handleUpdate(Update update) {
+        logger.info("Processing update: {}", update);
+        Message message = update.message();
+
+        if (message == null || message.text() == null) return;
+
+        String chatId = message.chat().id().toString();
+        String text = message.text();
+
+        if ("/start".equals(text)) {
+            handleStartCommand(chatId);
+        } else if (text.startsWith("/recommend ")) {
+            handleRecommendCommand(chatId, text.replace("/recommend ", "").trim());
+        }
+    }
+
+    private void handleStartCommand(String chatId) {
+        String helpMessage = "Добро пожаловать в StarBank Bot! \nКоманда: /recommend username";
+        telegramBot.execute(new SendMessage(chatId, helpMessage));
+    }
+
+    private void handleRecommendCommand(String chatId, String username) {
+        List<User> users = userRepository.findByUsername(username);
+        if (users.size() != 1) {
+            telegramBot.execute(new SendMessage(chatId, "Пользователь не найден."));
+            return;
+        }
+
+        User user = users.get(0);
+        List<RecommendationDto> recs = recommendationService.getRecommendations(user.getId());
+
+        if (recs.isEmpty()) {
+            telegramBot.execute(new SendMessage(chatId,
+                    "Здравствуйте, " + user.getFirstName() + " " + user.getLastName() + "\nНовых продуктов для вас нет."));
+        } else {
+            String message = buildRecommendationMessage(user, recs);
+            telegramBot.execute(new SendMessage(chatId, message));
+        }
+    }
+
+    private String buildRecommendationMessage(User user, List<RecommendationDto> recs) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Здравствуйте, ").append(user.getFirstName()).append(" ").append(user.getLastName()).append("\n");
+        sb.append("Новые продукты для вас:\n\n");
+
+        recs.forEach(r -> {
+            sb.append("🎁 ").append(r.getName()).append("\n");
+            sb.append("✨ ").append(r.getText()).append("\n");
+            sb.append("\n---\n\n");
+        });
+
+        return sb.toString();
     }
 }
