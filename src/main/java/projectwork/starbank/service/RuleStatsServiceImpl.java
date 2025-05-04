@@ -7,10 +7,19 @@ import projectwork.starbank.repository.RuleStatsRepository;
 
 import java.util.List;
 
+/**
+ * Реализация сервиса {@link RuleStatsService} для работы со статистикой использования правил.
+ * Использует {@link RuleStatsRepository} для взаимодействия с базой данных.
+ */
 @Service
 public class RuleStatsServiceImpl implements RuleStatsService {
     private final RuleStatsRepository repository;
 
+    /**
+     * Конструктор сервиса.
+     *
+     * @param repository Репозиторий для доступа к данным статистики правил.
+     */
     public RuleStatsServiceImpl(RuleStatsRepository repository) {
         this.repository = repository;
     }
