@@ -10,12 +10,20 @@ import projectwork.starbank.repository.DynamicRuleRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+/**
+ * Реализация сервиса {@link DynamicRuleService} для управления динамическими правилами.
+ * Использует {@link DynamicRuleRepository} и {@link DynamicRuleMapper}.
+ */
 @Service
 public class DynamicRuleServiceImpl implements DynamicRuleService {
 
     private final DynamicRuleRepository repository;
 
+    /**
+     * Конструктор сервиса.
+     *
+     * @param repository Репозиторий для доступа к данным динамических правил.
+     */
     public DynamicRuleServiceImpl(DynamicRuleRepository repository) {
         this.repository = repository;
     }

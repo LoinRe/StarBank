@@ -3,13 +3,33 @@ package projectwork.starbank.dto;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * DTO для представления динамического правила.
+ * Используется для передачи данных между контроллером, сервисом и маппером.
+ */
 public class DynamicRuleDto {
+    /**
+     * Уникальный идентификатор правила (может быть null при создании нового правила).
+     */
     private Long id;
+    /**
+     * Идентификатор продукта, к которому относится правило.
+     */
     private String productId;
+    /**
+     * Название рекомендуемого продукта.
+     */
     private String productName;
+    /**
+     * Текстовое описание рекомендуемого продукта.
+     */
     private String productText;
+    /**
+     * Структурированное представление логики правила.
+     * Список объектов Map, который будет сериализован в JSON
+     * и сохранён в соответствующей сущности {@link projectwork.starbank.model.DynamicRule}.
+     */
     private List<Map<String, Object>> rule;
-
 
     public Long getId() {
         return id;
